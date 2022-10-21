@@ -11,6 +11,9 @@ public class PlayerScript : MonoBehaviour
 
 	public GameObject background;
 
+	public Sprite deadSprite;
+
+
 	public static float speedObstacle;
 
 	void Start()
@@ -37,6 +40,7 @@ public class PlayerScript : MonoBehaviour
 	{
 		GetComponent<Rigidbody2D>().gravityScale = 1;
 		fire.SetActive (true);
+		GetComponent<AudioSource>().clip = auClip[0];
 		GetComponent<AudioSource>().Play();
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		GetComponent<Rigidbody2D>().AddForce(Vector2.up * 220);
@@ -48,6 +52,9 @@ public class PlayerScript : MonoBehaviour
 		{
 			if (col.tag == "Score")
 			{
+				GetComponent<AudioSource>().clip = auClip[2];
+				GetComponent<AudioSource>().Play();
+
 				GameObject.FindObjectOfType<GameManager>().Score++;
 				Destroy(col.gameObject);
 
@@ -86,11 +93,13 @@ public class PlayerScript : MonoBehaviour
 			else if (col.tag == "Finish")
 			{
 				Debug.Log(col.name);
-				dead = true;
+				dead = true;				
 				GetComponent<AudioSource>().clip = auClip[1];
 				GetComponent<AudioSource>().Play();
 				Invoke("BackToMain", 1.5f);
 
+				this.gameObject.GetComponent<Animator>().SetBool("isDead", true);
+				this.gameObject.GetComponent<Transform>().rotation = Quaternion.Euler(0,0, -90);
 			}
 		}
 	}
