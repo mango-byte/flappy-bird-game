@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 	{
 		while(true)
 		{
-			Instantiate(objects, new Vector3(7.5f, Random.Range(-2f, 2.1f) , 0) , Quaternion.identity);
+			Instantiate(objects, new Vector3(7.5f, Random.Range(-3f, 3f) , 0) , Quaternion.identity);
 			Instantiate(GroundMove, new Vector3(15f, -5.6f , 0) , Quaternion.identity);
 			yield return new WaitForSeconds(speedClone) ;
 		}

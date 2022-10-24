@@ -25,12 +25,12 @@ public class AudioController : MonoBehaviour
 	
 	void OnMouseDown()
 	{
-		transform.localScale = new Vector3(0.5f, 0.3f, 0.5f);
+		transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 	}
 	
 	void OnMouseUp()
 	{
-		transform.localScale = new Vector3(0.6f, 0.3f, 0.6f);
+		transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 		
 		if (PlayerPrefs.GetInt("Mute",0) == 0)
 		{

@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour
 
 	void Start()
 	{
-		speedObstacle = 0.06f;
+		speedObstacle = 0.08f;
 		dead = false;
 		GetComponent<AudioSource>().clip = auClip[0];
 	}
@@ -38,12 +38,12 @@ public class PlayerScript : MonoBehaviour
 
 	void Jump()
 	{
-		GetComponent<Rigidbody2D>().gravityScale = 1;
+		GetComponent<Rigidbody2D>().gravityScale = 2;
 		fire.SetActive (true);
 		GetComponent<AudioSource>().clip = auClip[0];
 		GetComponent<AudioSource>().Play();
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-		GetComponent<Rigidbody2D>().AddForce(Vector2.up * 220);
+		GetComponent<Rigidbody2D>().AddForce(Vector2.up * 440);
 	}
 
 	void OnTriggerEnter2D(Collider2D col) 
@@ -52,39 +52,37 @@ public class PlayerScript : MonoBehaviour
 		{
 			if (col.tag == "Score")
 			{
-				GetComponent<AudioSource>().clip = auClip[2];
-				GetComponent<AudioSource>().Play();
-
+				GetComponent<AudioSource>().PlayOneShot(auClip[2], 1);
 				GameObject.FindObjectOfType<GameManager>().Score++;
 				Destroy(col.gameObject);
 
 				if(GameManager.score == 10) // easy
 				{
-					background.GetComponent<SpriteRenderer>().color = new Color32(220,220,220,255);
+					background.GetComponent<SpriteRenderer>().color = new Color32(255,220,220,255);
 					GameManager.speedClone = GameManager.speedClone - 0.3f; 
 					speedObstacle = speedObstacle + 0.02f;
 				}
 				else if(GameManager.score == 20) // medium
 				{
-					background.GetComponent<SpriteRenderer>().color = new Color32(190,190,190,255);
+					background.GetComponent<SpriteRenderer>().color = new Color32(255,190,190,255);
 					GameManager.speedClone = GameManager.speedClone - 0.3f;
 					speedObstacle = speedObstacle + 0.02f;
 				}
 				else if(GameManager.score == 30) // hard
 				{
-					background.GetComponent<SpriteRenderer>().color = new Color32(160,160,160,255);
+					background.GetComponent<SpriteRenderer>().color = new Color32(255,160,160,255);
 					GameManager.speedClone = GameManager.speedClone - 0.3f;
 					speedObstacle = speedObstacle + 0.02f;
 				}
 				else if(GameManager.score == 40) // Extreme
 				{
-					background.GetComponent<SpriteRenderer>().color = new Color32(130,130,130,255);
+					background.GetComponent<SpriteRenderer>().color = new Color32(255,130,130,255);
 					GameManager.speedClone = GameManager.speedClone - 0.3f;
 					speedObstacle = speedObstacle + 0.02f;
 				}
 				else if(GameManager.score == 50) // Insane
 				{
-					background.GetComponent<SpriteRenderer>().color = new Color32(100,100,100,255);
+					background.GetComponent<SpriteRenderer>().color = new Color32(255,100,100,255);
 					GameManager.speedClone = GameManager.speedClone - 0.3f;
 					speedObstacle = speedObstacle + 0.02f;
 				}
@@ -92,10 +90,8 @@ public class PlayerScript : MonoBehaviour
 			}
 			else if (col.tag == "Finish")
 			{
-				Debug.Log(col.name);
 				dead = true;				
-				GetComponent<AudioSource>().clip = auClip[1];
-				GetComponent<AudioSource>().Play();
+				GetComponent<AudioSource>().PlayOneShot(auClip[1], 1);
 				Invoke("BackToMain", 1.5f);
 
 				this.gameObject.GetComponent<Animator>().SetBool("isDead", true);
