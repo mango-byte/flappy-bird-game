@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Net.Sockets;
+using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+
 
 public class SetScore : MonoBehaviour 
 {
+	//public static int[] rankHighScore;
 	public TextMesh bestScoreLabel;
 	public TextMesh scoreLabel;
 
@@ -9,16 +14,13 @@ public class SetScore : MonoBehaviour
 	{
 		scoreLabel.text = "Score: " + GameManager.score.ToString();
 
-		if (GameManager.score > 0)
+		if (PlayerPrefs.HasKey("0"))
 		{
-			if (PlayerPrefs.GetInt("Score", 0) < GameManager.score)
-			{
-				PlayerPrefs.SetInt("Score", GameManager.score);
-				PlayerPrefs.Save();
-			}
+		  	bestScoreLabel.text = "HighScore: " + PlayerPrefs.GetInt("0", 0).ToString();
 		}
-
-		bestScoreLabel.text = "HighScore: " + PlayerPrefs.GetInt("Score", 0).ToString();
-		GameManager.score = 0;
+		else
+		{
+			bestScoreLabel.text = "HighScore: " + "0";
+		}
 	}
 }

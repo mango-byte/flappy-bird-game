@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerScript : MonoBehaviour
 {
+	public static List<int> recentlyPlay = new List<int>();
+
+	public static List<int> rankHighScore = new List<int>();
 	public static bool dead;
 	public AudioClip[] auClip;
 	public GameObject fire;
@@ -92,11 +95,45 @@ public class PlayerScript : MonoBehaviour
 			{
 				dead = true;				
 				GetComponent<AudioSource>().PlayOneShot(auClip[1], 1);
-				Invoke("BackToMain", 1.5f);
-
 				this.gameObject.GetComponent<Animator>().SetBool("isDead", true);
 				this.gameObject.GetComponent<Transform>().rotation = Quaternion.Euler(0,0, -90);
+
+				saveData();
+				Invoke("BackToMain", 2f);
 			}
+		}
+	}
+
+	void saveData()
+	{
+		recentlyPlay.Add(GameManager.score);
+		for(int i = 0; i < 5; i++) //get previous high score
+		{
+			if(PlayerPrefs.HasKey(i.ToString()))
+			{
+				rankHighScore.Add(PlayerPrefs.GetInt(i.ToString(), 0));
+			}
+			else
+			{
+				break;
+			}
+		}
+		rankHighScore.Add(GameManager.score);
+		rankHighScore = rankHighScore.Distinct().ToList(); // Remove Duplicated high score
+		rankHighScore.Sort(); // Sort in order
+		rankHighScore.Reverse(); //Sort with high score
+		if(rankHighScore.Count > 5) // Remove previous high score
+		{
+			rankHighScore.RemoveAt(5);
+		}
+
+		int numKey = 0;
+		Debug.Log(rankHighScore.Count);
+		foreach (int newRank in rankHighScore)
+		{
+			PlayerPrefs.SetInt(numKey.ToString(), newRank);	
+			numKey++;
+			PlayerPrefs.Save();
 		}
 	}
 

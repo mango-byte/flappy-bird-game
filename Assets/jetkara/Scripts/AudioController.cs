@@ -31,20 +31,19 @@ public class AudioController : MonoBehaviour
 	void OnMouseUp()
 	{
 		transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-		
-		if (PlayerPrefs.GetInt("Mute",0) == 0)
-		{
-			AudioListener.volume = 0;
-			PlayerPrefs.SetInt("Mute",1);
-			sp.sprite = off;
-		}
-		else
-		{
-			AudioListener.volume = 1;
-			PlayerPrefs.SetInt("Mute",0);
-			sp.sprite = on;
-		}
-		
-		PlayerPrefs.Save();
+			
+			if (PlayerPrefs.GetInt("Mute",0) == 0)
+			{
+				AudioListener.volume = 0;
+				PlayerPrefs.SetInt("Mute",1);
+				sp.sprite = off;
+			}
+			else
+			{
+				AudioListener.volume = 1;
+				PlayerPrefs.SetInt("Mute",0);
+				sp.sprite = on;
+			}		
+			PlayerPrefs.Save();
 	}
 }

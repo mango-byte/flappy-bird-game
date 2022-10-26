@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class OpenLevel : MonoBehaviour 
@@ -14,5 +14,5 @@ public class OpenLevel : MonoBehaviour
 	{
 		transform.localScale = new Vector3(0.6f,0.6f,0.6f);
 		SceneManager.LoadScene(levelName);
-	}
+	}	
 }
